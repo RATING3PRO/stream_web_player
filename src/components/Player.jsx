@@ -1,9 +1,8 @@
 import { useEffect, useRef } from 'react';
 import Artplayer from 'artplayer';
-import mpegts from 'mpegts.js';
 import Hls from 'hls.js';
 
-export default function Player({ url, type, className, ...rest }) {
+export default function Player({ url, className, ...rest }) {
   const artRef = useRef(null);
   const playerRef = useRef(null);
 
@@ -13,7 +12,7 @@ export default function Player({ url, type, className, ...rest }) {
     const art = new Artplayer({
       container: artRef.current,
       url: url,
-      type: type, // 'flv' or 'm3u8'
+      type: 'm3u8',
       isLive: true,
       muted: false,
       autoplay: true,
@@ -41,55 +40,6 @@ export default function Player({ url, type, className, ...rest }) {
         crossOrigin: 'anonymous',
       },
       customType: {
-        flv: function (video, url, art) {
-            if (mpegts.getIsSupported()) {
-                const flvPlayer = mpegts.createPlayer({
-                    type: 'flv',
-                    url: url,
-                    isLive: true,
-                    cors: true,
-                }, {
-                    enableStashBuffer: false,
-                    isLive: true,
-                    lazyLoad: false,
-                    lazyLoadMaxDuration: 0,
-                    lazyLoadRecoverDuration: 0,
-                    deferLoadAfterSourceOpen: false,
-                    autoCleanupSourceBuffer: true,
-                    fixAudioTimestampGap: false,
-                });
-                
-                flvPlayer.attachMediaElement(video);
-                flvPlayer.load();
-                flvPlayer.play().catch(err => {
-                    console.warn('FLV auto play failed:', err);
-                    art.notice.show = 'Click to play';
-                });
-
-                art.flv = flvPlayer;
-                
-                // Error handling and auto-reconnect
-                flvPlayer.on(mpegts.Events.ERROR, (errorType, errorDetail, errorInfo) => {
-                    console.error('FLV Error:', errorType, errorDetail, errorInfo);
-                    if (errorType === mpegts.ErrorTypes.NETWORK_ERROR) {
-                         art.notice.show = 'Network error, reconnecting...';
-                         setTimeout(() => {
-                             flvPlayer.load();
-                             flvPlayer.play();
-                         }, 3000);
-                    }
-                });
-
-                art.on('destroy', () => {
-                    if (art.flv) {
-                        art.flv.destroy();
-                        art.flv = null;
-                    }
-                });
-            } else {
-                art.notice.show = 'Does not support playback of flv';
-            }
-        },
         m3u8: function (video, url, art) {
             if (Hls.isSupported()) {
                 if (art.hls) art.hls.destroy();
@@ -135,7 +85,7 @@ export default function Player({ url, type, className, ...rest }) {
         playerRef.current.destroy(false);
       }
     };
-  }, [url, type]); // Re-initialize when url or type changes
+  }, [url]);
 
   return <div ref={artRef} className={className} {...rest}></div>;
 }
