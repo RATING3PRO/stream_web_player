@@ -48,9 +48,24 @@ export default function Player({ url, type, className, ...rest }) {
                     url: url,
                     isLive: true,
                     cors: true,
+                }, {
+                    enableStashBuffer: false,
+                    isLive: true,
+                    lazyLoad: false,
+                    lazyLoadMaxDuration: 0,
+                    lazyLoadRecoverDuration: 0,
+                    deferLoadAfterSourceOpen: false,
+                    autoCleanupSourceBuffer: true,
+                    fixAudioTimestampGap: false,
                 });
+                
                 flvPlayer.attachMediaElement(video);
                 flvPlayer.load();
+                flvPlayer.play().catch(err => {
+                    console.warn('FLV auto play failed:', err);
+                    art.notice.show = 'Click to play';
+                });
+
                 art.flv = flvPlayer;
                 
                 // Error handling and auto-reconnect
