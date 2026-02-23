@@ -3,7 +3,7 @@ import Player from './components/Player';
 import { Tv, Radio } from 'lucide-react';
 
 function App() {
-  const [sourceType, setSourceType] = useState('flv'); // 'flv' or 'hls'
+  const [sourceType, setSourceType] = useState('hls'); // 'flv' or 'hls'
   const [url, setUrl] = useState('');
   
   // Get URLs from environment variables
@@ -30,7 +30,6 @@ function App() {
     <div className="min-h-screen bg-gray-950 text-white flex flex-col items-center justify-center p-4 font-sans">
       <header className="w-full max-w-5xl mb-6 flex flex-col sm:flex-row justify-between items-center gap-4">
         <h1 className="text-2xl font-bold flex items-center gap-2 bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
-          <Tv className="w-8 h-8 text-blue-500" />
           Live Stream
         </h1>
         

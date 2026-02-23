@@ -59,4 +59,4 @@ A modern, responsive live stream player frontend built with React, Vite, Tailwin
 
 ## License
 
-MIT
+AGPL-3.0
