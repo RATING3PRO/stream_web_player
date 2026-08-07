@@ -1,12 +1,13 @@
 # Live Stream Player for Cloudflare Pages
 
-A modern, responsive live stream player frontend built with React, Vite, Tailwind CSS, and Artplayer. It supports HLS playback with automatic reconnection.
+A fullscreen live stream player frontend built with React, Vite, and Artplayer. It supports FLV and HLS playback with automatic reconnection and in-player source switching.
 
 ## Features
 
-- **HLS Support**: Optimized for HLS (m3u8) streams.
+- **FLV and HLS Support**: Play FLV and HLS (m3u8) live streams.
+- **In-Player Switching**: Switch between configured FLV and HLS sources from the Artplayer controls.
 - **Auto-Reconnect**: Automatically attempts to reconnect on network errors.
-- **Modern UI**: Clean, responsive interface built with Tailwind CSS.
+- **Fullscreen Player**: Artplayer fills the browser viewport without external chrome or borders.
 - **Environment Configurable**: Easily configure stream URLs via environment variables.
 
 ## Deployment on Cloudflare Pages
@@ -24,7 +25,10 @@ A modern, responsive live stream player frontend built with React, Vite, Tailwin
 
     | Variable Name | Description | Example |
     | :--- | :--- | :--- |
+    | `VITE_FLV_URL` | URL for the FLV stream source | `https://example.com/live.flv` |
     | `VITE_HLS_URL` | URL for the HLS (m3u8) stream source | `https://example.com/live.m3u8` |
+
+    You can configure either source or both. The source selector appears in Artplayer when both URLs are available.
 
 7.  Click **Save and Deploy**.
 
@@ -46,12 +50,11 @@ A modern, responsive live stream player frontend built with React, Vite, Tailwin
 
 ## Technology Stack
 
--   **Frontend Framework**: [React](https://react.dev/) + [Vite](https://vitejs.dev/)
+-   **Frontend Framework**: [React](https://react.dev/) + [Vite](https://vite.dev/)
 -   **Player**: [Artplayer](https://artplayer.org/)
 -   **Streaming Protocols**:
+    -   FLV: [mpegts.js](https://github.com/xqq/mpegts.js)
     -   HLS: [hls.js](https://github.com/video-dev/hls.js)
--   **Styling**: [Tailwind CSS](https://tailwindcss.com/)
--   **Icons**: [Lucide React](https://lucide.dev/)
 
 ## License
 
