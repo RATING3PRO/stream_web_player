@@ -137,6 +137,7 @@ function createSourceControl(sources, initialSource) {
 
 export default function Player({ sources, className, ...rest }) {
   const containerRef = useRef(null);
+  const autoplayAlertShownRef = useRef(false);
 
   useEffect(() => {
     const initialSource =
@@ -148,7 +149,8 @@ export default function Player({ sources, className, ...rest }) {
         url: initialSource?.url ?? '',
         type: initialSource?.type ?? '',
         isLive: true,
-        autoplay: true,
+        autoplay: false,
+        muted: false,
         pip: true,
         screenshot: true,
         setting: true,
@@ -174,7 +176,22 @@ export default function Player({ sources, className, ...rest }) {
       (player) => {
         if (!initialSource) {
           player.notice.show = '请配置 VITE_FLV_URL 或 VITE_HLS_URL';
+          return;
         }
+
+        player.muted = false;
+        player.play().catch((error) => {
+          if (
+            error?.name !== 'NotAllowedError' ||
+            autoplayAlertShownRef.current
+          ) {
+            return;
+          }
+
+          autoplayAlertShownRef.current = true;
+          player.notice.show = '请点击播放器开始播放';
+          window.alert('浏览器阻止了有声自动播放，请点击播放器开始播放。');
+        });
       },
     );
 

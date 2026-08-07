@@ -6,6 +6,7 @@ A fullscreen live stream player frontend built with React, Vite, and Artplayer. 
 
 - **FLV and HLS Support**: Play FLV and HLS (m3u8) live streams.
 - **In-Player Switching**: Switch between configured FLV and HLS sources from the Artplayer controls.
+- **Autoplay**: Attempt playback with sound when the page opens and show an alert when the browser blocks it.
 - **Auto-Reconnect**: Automatically attempts to reconnect on network errors.
 - **Fullscreen Player**: Artplayer fills the browser viewport without external chrome or borders.
 - **Environment Configurable**: Easily configure stream URLs via environment variables.
