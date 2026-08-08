@@ -141,7 +141,7 @@ export default function Player({ sources, className, ...rest }) {
 
   useEffect(() => {
     const initialSource =
-      sources.find((source) => source.type === 'm3u8') ?? sources[0];
+      sources.find((source) => source.type === 'flv') ?? sources[0];
 
     const art = new Artplayer(
       {
